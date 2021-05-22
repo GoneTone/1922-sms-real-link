@@ -1,7 +1,7 @@
 # 1922 簡訊實聯制 - 生成工具
 本工具可以讓店家/場所自訂簡訊可修改的部分，並且會生成頁面網址和兩個 QR Code，兩個 QR Code 分別是 "頁面 QR Code" 和 "簡訊 QR Code"。
 
-工具網址：[https://gonetone.github.io/1922-sms-real-link/](https://gonetone.github.io/1922-sms-real-link/)
+工具網址：[https://1922sms.reh.tw/](https://1922sms.reh.tw/)
 
 ### 頁面網址
 
