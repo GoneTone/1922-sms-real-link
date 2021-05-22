@@ -50,7 +50,7 @@
     <h1 class="mt-5">生成</h1>
 
     <div class="alert alert-success" role="alert">
-      生成成功！
+      生成成功！ (<a href="javascript:" @click="this.$router.go(0)">重新生成</a>)
     </div>
 
     <div class="alert alert-info" role="alert">
