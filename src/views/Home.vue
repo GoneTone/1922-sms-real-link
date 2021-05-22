@@ -41,7 +41,7 @@
       </div>
 
       <div class="col-12">
-        <button type="submit" class="btn btn-primary" @click="generate">生成</button>
+        <button type="submit" class="btn btn-primary">生成</button>
       </div>
     </form>
   </div>
@@ -139,6 +139,7 @@ export default {
           event.stopPropagation()
 
           if (form.checkValidity()) {
+            _this.generate()
             _this.generate_status = true
           }
 
@@ -149,6 +150,12 @@ export default {
   },
   methods: {
     generate () {
+      // noinspection JSCheckFunctionSignatures
+      scrollTo({
+        top: 0,
+        behavior: 'instant'
+      })
+
       const urlAppend = new URL(`${(process.env.NODE_ENV === 'production') ? 'https' : 'http'}://${(process.env.NODE_ENV === 'production') ? process.env.VUE_APP_HOST : `${window.location.hostname}:${window.location.port}`}${process.env.BASE_URL}sendsms/${this.data.code.toString()}`)
       let msg = `場所代碼：${this.data.code.toString()}`
 
