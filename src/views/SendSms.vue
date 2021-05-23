@@ -8,7 +8,7 @@
 
     <div class="alert alert-warning" role="alert">
       請確認下方資訊正確在按下發送按鈕，如果不正確請勿發送。
-      <br>簡訊發送至 1922，費用由電信商全額負擔，完全免費，請安心使用。
+      <br><br>簡訊發送至 1922，費用由電信商全額負擔，完全免費，請安心使用。
     </div>
 
     <form class="row g-3 needs-validation" novalidate>
@@ -32,6 +32,14 @@
         <input type="number" class="form-control" id="peopleCount" min="1" v-model="data.people_count" required>
         <div class="invalid-feedback">
           請輸入同行人數。
+        </div>
+      </div>
+
+      <div class="col-12">
+        <div class="alert alert-warning mb-0" role="alert">
+          請注意，按下發送簡訊按鈕後會開啟簡訊應用程式並自動填入訊息，如果您的同行人數大於 1 人，場所代碼後方會加上 "+人數"，但部分簡訊應用程式可能會遺失同行人數前的 + 號，如果遺失請自行補上，或者改使用其他簡訊應用程式。
+          <br><br>Android 可以使用 Google 的
+          <a href="https://play.google.com/store/apps/details?id=com.google.android.apps.messaging" target="_blank">訊息</a> 應用程式來發送簡訊。
         </div>
       </div>
 
@@ -64,7 +72,7 @@ export default {
   mounted () {
     const _this = this
 
-  ;(function () {
+    ;(function () {
       'use strict'
 
       const forms = document.querySelectorAll('.needs-validation')
@@ -75,15 +83,15 @@ export default {
           event.stopPropagation()
 
           if (form.checkValidity()) {
-            let body = `場所代碼：${_this.$route.params.code}`
+            let body = `${encodeURIComponent('場所代碼：')}${_this.$route.params.code}`
             if (typeof _this.$route.query.branch_number !== 'undefined') {
               body += ` ${_this.$route.query.branch_number}`
             }
             if (_this.data.people_count !== 1) {
-              body += ` ${encodeURIComponent(encodeURIComponent('+'))}${_this.data.people_count}`
+              body += ` ${encodeURIComponent('+')}${_this.data.people_count}`
             }
             if (typeof _this.$route.query.sms_msg !== 'undefined') {
-              body += `${encodeURIComponent(encodeURIComponent('\n'))}${_this.$route.query.sms_msg}`
+              body += `${encodeURIComponent('\n')}${encodeURIComponent(_this.$route.query.sms_msg.toString())}`
             }
 
             // noinspection JSUnresolvedVariable
