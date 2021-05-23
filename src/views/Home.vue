@@ -1,5 +1,5 @@
 <template>
-  <div class="container mb-5" v-if="!generate_status">
+  <div class="container mb-5">
     <h1 class="mt-5">生成</h1>
 
     <div class="alert alert-info" role="alert">
@@ -41,53 +41,49 @@
       </div>
 
       <div class="col-12">
-        <button type="submit" class="btn btn-primary">生成</button>
+        <button type="submit" class="btn btn-primary">{{ generate.status ? '重新生成' : '生成' }}</button>
       </div>
     </form>
-  </div>
 
-  <div class="container mb-5" v-else>
-    <h1 class="mt-5">生成</h1>
-
-    <div class="alert alert-success" role="alert">
-      生成成功！ (<a href="javascript:" @click="this.$router.go(0)">重新生成</a>)
-    </div>
-
-    <div class="alert alert-info" role="alert">
-      您的簡訊實聯制頁面網址為：
-      <div class="row mt-3">
-        <div class="col">
-          <input class="form-control" type="text" id="smsRealLinkPageUrl" v-model="url" readonly>
-        </div>
-        <div class="col-auto">
-          <button type="button" class="btn btn-outline-primary copy" data-clipboard-target="#smsRealLinkPageUrl">{{ copyButtonText }}</button>
-        </div>
-      </div>
-    </div>
-
-    <div class="row row-cols-1 row-cols-md-3 g-4">
-      <div class="col">
-        <div class="card h-100">
-          <img :src="qrcodeUrl.page" class="card-img-top" alt="簡訊實聯制 - 頁面 QR Code">
-          <div class="card-body">
-            <h5 class="card-title">頁面 QR Code</h5>
-            <p class="card-text"><span class="text-danger">此方法可以解決有些 QR Code 掃描器不支援簡訊 QR Code 的問題，並且可以填寫同行人數</span>，掃描後會開啟網頁，訪客/顧客可以在頁面上填寫同行人數，按下發送簡訊按鈕時會開啟簡訊應用程式並自動填入 1922 簡訊格式訊息。</p>
-          </div>
-          <div class="card-footer d-grid">
-            <button type="button" class="btn btn-outline-primary" @click="downloadPageQrcode">下載</button>
+    <div class="card mt-3" v-if="generate.status">
+      <div class="card-body">
+        <div class="alert alert-info" role="alert">
+          {{ generate.msg }}
+          <div class="row mt-3">
+            <div class="col">
+              <input class="form-control" type="text" id="smsRealLinkPageUrl" v-model="url" readonly>
+            </div>
+            <div class="col-auto">
+              <button type="button" class="btn btn-outline-primary copy" data-clipboard-target="#smsRealLinkPageUrl">{{ copyButtonText }}</button>
+            </div>
           </div>
         </div>
-      </div>
 
-      <div class="col">
-        <div class="card h-100">
-          <img :src="qrcodeUrl.sms" class="card-img-top" alt="簡訊實聯制 - 簡訊 QR Code">
-          <div class="card-body">
-            <h5 class="card-title">簡訊 QR Code</h5>
-            <p class="card-text">掃描後會直接開啟簡訊應用程式並自動填入 1922 簡訊格式訊息，但無法直接設定同行人數，除非了解簡訊格式 (<a href="https://g0v.hackmd.io/@au/HkmyoS-Fu#%E5%AF%A6%E4%BD%9C%E4%BE%8B" target="_blank">參考</a>)。</p>
+        <div class="row row-cols-1 row-cols-md-3 g-4">
+          <div class="col">
+            <div class="card h-100">
+              <img :src="qrcodeUrl.page" class="card-img-top" alt="簡訊實聯制 - 頁面 QR Code">
+              <div class="card-body">
+                <h5 class="card-title">頁面 QR Code</h5>
+                <p class="card-text"><span class="text-danger">此方法可以解決有些 QR Code 掃描器不支援簡訊 QR Code 的問題，並且可以填寫同行人數</span>，掃描後會開啟網頁，訪客/顧客可以在頁面上填寫同行人數，按下發送簡訊按鈕時會開啟簡訊應用程式並自動填入 1922 簡訊格式訊息。</p>
+              </div>
+              <div class="card-footer d-grid">
+                <button type="button" class="btn btn-outline-primary" @click="downloadPageQrcode">下載</button>
+              </div>
+            </div>
           </div>
-          <div class="card-footer d-grid">
-            <button type="button" class="btn btn-outline-primary" @click="downloadSmsQrcode">下載</button>
+
+          <div class="col">
+            <div class="card h-100">
+              <img :src="qrcodeUrl.sms" class="card-img-top" alt="簡訊實聯制 - 簡訊 QR Code">
+              <div class="card-body">
+                <h5 class="card-title">簡訊 QR Code</h5>
+                <p class="card-text">掃描後會直接開啟簡訊應用程式並自動填入 1922 簡訊格式訊息，但無法直接設定同行人數，除非了解簡訊格式 (<a href="https://g0v.hackmd.io/@au/HkmyoS-Fu#%E5%AF%A6%E4%BD%9C%E4%BE%8B" target="_blank">參考</a>)。</p>
+              </div>
+              <div class="card-footer d-grid">
+                <button type="button" class="btn btn-outline-primary" @click="downloadSmsQrcode">下載</button>
+              </div>
+            </div>
           </div>
         </div>
       </div>
@@ -117,7 +113,10 @@ export default {
         sms: ''
       },
       copyButtonText: '複製',
-      generate_status: false
+      generate: {
+        status: false,
+        msg: ''
+      }
     }
   },
   mounted () {
@@ -139,8 +138,9 @@ export default {
           event.stopPropagation()
 
           if (form.checkValidity()) {
-            _this.generate()
-            _this.generate_status = true
+            _this.generateData()
+            _this.generate.status = true
+            _this.generate.msg = `您的簡訊實聯制 (場所代碼 ${_this.data.code.toString()}) 頁面網址為：`
           }
 
           form.classList.add('was-validated')
@@ -149,13 +149,7 @@ export default {
     })()
   },
   methods: {
-    generate () {
-      // noinspection JSCheckFunctionSignatures
-      scrollTo({
-        top: 0,
-        behavior: 'instant'
-      })
-
+    generateData () {
       const urlAppend = new URL(`${(process.env.NODE_ENV === 'production') ? 'https' : 'http'}://${(process.env.NODE_ENV === 'production') ? process.env.VUE_APP_HOST : `${window.location.hostname}:${window.location.port}`}${process.env.BASE_URL}sendsms/${this.data.code.toString()}`)
       let msg = `場所代碼：${this.data.code.toString()}`
 
