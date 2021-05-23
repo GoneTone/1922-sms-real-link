@@ -47,7 +47,7 @@
 
     <div class="card mt-3" v-if="generate.status">
       <div class="card-body">
-        <div class="alert alert-info" role="alert">
+        <div class="alert alert-success" role="alert">
           {{ generate.msg }}
           <div class="row mt-3">
             <div class="col">
@@ -59,29 +59,52 @@
           </div>
         </div>
 
-        <div class="row row-cols-1 row-cols-md-3 g-4">
-          <div class="col">
-            <div class="card h-100">
-              <img :src="qrcodeUrl.page" class="card-img-top" alt="簡訊實聯制 - 頁面 QR Code">
-              <div class="card-body">
-                <h5 class="card-title">頁面 QR Code</h5>
-                <p class="card-text"><span class="text-danger">此方法可以解決有些 QR Code 掃描器不支援簡訊 QR Code 的問題，並且可以填寫同行人數</span>，掃描後會開啟網頁，訪客/顧客可以在頁面上填寫同行人數，按下發送簡訊按鈕時會開啟簡訊應用程式並自動填入 1922 簡訊格式訊息。</p>
-              </div>
-              <div class="card-footer d-grid">
-                <button type="button" class="btn btn-outline-primary" @click="downloadPageQrcode">下載</button>
+        <ul class="nav nav-tabs" id="myTab" role="tablist">
+          <li class="nav-item" role="presentation">
+            <button class="nav-link active" id="page-tab" data-bs-toggle="tab" data-bs-target="#page" type="button" role="tab" aria-controls="page" aria-selected="true">頁面 QR Code</button>
+          </li>
+          <li class="nav-item" role="presentation">
+            <button class="nav-link" id="sms-tab" data-bs-toggle="tab" data-bs-target="#sms" type="button" role="tab" aria-controls="sms" aria-selected="false">簡訊 QR Code</button>
+          </li>
+        </ul>
+        <div class="tab-content" id="myTabContent">
+          <div class="tab-pane fade show active" id="page" role="tabpanel" aria-labelledby="page-tab">
+            <div class="alert alert-info mt-2" role="alert">
+              <span class="text-danger">此方法可以解決有些 QR Code 掃描器不支援簡訊 QR Code 的問題，並且可以填寫同行人數</span>，掃描後會開啟網頁，訪客/顧客可以在頁面上填寫同行人數，按下發送簡訊按鈕時會開啟簡訊應用程式並自動填入 1922 簡訊格式訊息。
+            </div>
+
+            <div class="row row-cols-1 row-cols-md-3 g-4">
+              <div class="col">
+                <div class="card h-100">
+                  <img :src="qrcodeUrl.page" class="card-img-top" alt="簡訊實聯制 - 頁面 QR Code">
+                  <div class="card-body">
+                    <h5 class="card-title">QR Code</h5>
+                    <p class="card-text">頁面 QR Code。</p>
+                  </div>
+                  <div class="card-footer d-grid">
+                    <button type="button" class="btn btn-outline-primary" @click="downloadPageQrcode">下載</button>
+                  </div>
+                </div>
               </div>
             </div>
           </div>
+          <div class="tab-pane fade" id="sms" role="tabpanel" aria-labelledby="sms-tab">
+            <div class="alert alert-info mt-2" role="alert">
+              掃描後會直接開啟簡訊應用程式並自動填入 1922 簡訊格式訊息，但無法直接設定同行人數，除非了解簡訊格式 (<a href="https://g0v.hackmd.io/@au/HkmyoS-Fu#%E5%AF%A6%E4%BD%9C%E4%BE%8B" target="_blank">參考</a>)。
+            </div>
 
-          <div class="col">
-            <div class="card h-100">
-              <img :src="qrcodeUrl.sms" class="card-img-top" alt="簡訊實聯制 - 簡訊 QR Code">
-              <div class="card-body">
-                <h5 class="card-title">簡訊 QR Code</h5>
-                <p class="card-text">掃描後會直接開啟簡訊應用程式並自動填入 1922 簡訊格式訊息，但無法直接設定同行人數，除非了解簡訊格式 (<a href="https://g0v.hackmd.io/@au/HkmyoS-Fu#%E5%AF%A6%E4%BD%9C%E4%BE%8B" target="_blank">參考</a>)。</p>
-              </div>
-              <div class="card-footer d-grid">
-                <button type="button" class="btn btn-outline-primary" @click="downloadSmsQrcode">下載</button>
+            <div class="row row-cols-1 row-cols-md-3 g-4">
+              <div class="col">
+                <div class="card h-100">
+                  <img :src="qrcodeUrl.sms" class="card-img-top" alt="簡訊實聯制 - 簡訊 QR Code">
+                  <div class="card-body">
+                    <h5 class="card-title">QR Code</h5>
+                    <p class="card-text">簡訊 QR Code。</p>
+                  </div>
+                  <div class="card-footer d-grid">
+                    <button type="button" class="btn btn-outline-primary" @click="downloadSmsQrcode">下載</button>
+                  </div>
+                </div>
               </div>
             </div>
           </div>
