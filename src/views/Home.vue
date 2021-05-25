@@ -146,7 +146,12 @@ export default {
   mounted () {
     const _this = this
 
-    Inputmask('9999 9999 9999 999').mask(document.getElementById('code'))
+    Inputmask({
+      mask: '9999 9999 9999 999',
+      isComplete: function (buffer) {
+        _this.data.code = buffer.join('')
+      }
+    }).mask(document.getElementById('code'))
 
     const clipboard = new ClipboardJS('.copy')
     clipboard.on('success', function () {
