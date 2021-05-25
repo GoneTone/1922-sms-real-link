@@ -22,10 +22,10 @@
 
       <div class="col-md-4">
         <label for="code" class="form-label">您的場所代碼</label>
-        <input type="text" class="form-control" id="code" placeholder="請輸入您的場所代碼" pattern="(((\d{4})(\s)){3})(\d{3})|(\d{15})" aria-describedby="codeHelp" v-model="data.code" required>
-        <div id="codeHelp" class="form-text">格式為 0000 0000 0000 000，或者刪除空白 000000000000000。</div>
+        <input type="text" class="form-control" id="code" placeholder="請輸入您的場所代碼" pattern="(((\d{4})(\s)){3})(\d{3})" aria-describedby="codeHelp" v-model="data.code" required>
+        <div id="codeHelp" class="form-text">格式為 0000 0000 0000 000。</div>
         <div class="invalid-feedback">
-          請輸入正確的場所代碼格式 (格式為 0000 0000 0000 000，或者刪除空白 000000000000000)。
+          請輸入完整的場所代碼。
         </div>
       </div>
 
@@ -115,6 +115,7 @@
 </template>
 
 <script>
+import Inputmask from 'inputmask'
 import QRCode from 'qrcode'
 import ClipboardJS from 'clipboard'
 import { saveAs } from 'file-saver'
@@ -144,6 +145,8 @@ export default {
   },
   mounted () {
     const _this = this
+
+    Inputmask('9999 9999 9999 999').mask(document.getElementById('code'))
 
     const clipboard = new ClipboardJS('.copy')
     clipboard.on('success', function () {
