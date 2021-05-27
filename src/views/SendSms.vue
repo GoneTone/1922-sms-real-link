@@ -87,8 +87,8 @@ export default {
             if (typeof _this.$route.query.branch_number !== 'undefined') {
               body += ` ${_this.$route.query.branch_number}`
             }
-            if (_this.data.people_count !== 1) {
-              body += ` ${encodeURIComponent('+')}${_this.data.people_count}`
+            if (Number(_this.data.people_count) !== 1) {
+              body += ` ${encodeURIComponent('+')}${_this.data.people_count.toString()}`
             }
             if (typeof _this.$route.query.sms_msg !== 'undefined') {
               body += `${encodeURIComponent('\n')}${encodeURIComponent(_this.$route.query.sms_msg.toString())}`
