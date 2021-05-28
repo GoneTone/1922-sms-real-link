@@ -3,6 +3,7 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!--suppress HtmlUnknownTarget -->
     <link rel="icon" href="<%= BASE_URL %>favicon.ico">
     <title><%= VUE_APP_TITLE %></title>
     <meta name="theme-color" content="#7952b3">
@@ -15,6 +16,19 @@
     <meta property="og:url" content="https://<%= VUE_APP_HOST %><%= BASE_URL %>">
     <meta name="twitter:title" content="<%= VUE_APP_TITLE %>">
     <meta name="twitter:description" content="本工具可以讓店家/場所自訂簡訊可修改的部分，並且會生成頁面網址和兩個 QR Code，兩個 QR Code 分別是 頁面 QR Code 和 簡訊 QR Code。">
+
+    <!-- Global site tag (gtag.js) - Google Analytics -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-VYJY4CW8YN"></script>
+    <script>
+      window.dataLayer = window.dataLayer || []
+
+      function gtag () {
+        dataLayer.push(arguments)
+      }
+
+      gtag('js', new Date())
+      gtag('config', 'G-VYJY4CW8YN')
+    </script>
 </head>
 <body class="d-flex flex-column h-100">
 <noscript>
@@ -23,6 +37,7 @@
 <header>
     <div class="navbar navbar-dark bg-dark shadow-sm">
         <div class="container">
+            <!--suppress HtmlUnknownTarget -->
             <a class="navbar-brand d-flex align-items-center" href="<%= BASE_URL %>">
                 <strong><%= VUE_APP_TITLE %></strong>
             </a>
